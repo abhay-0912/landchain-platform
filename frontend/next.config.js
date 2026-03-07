@@ -1,8 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {},
   images: {
-    domains: ['gateway.pinata.cloud', 'ipfs.io'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'gateway.pinata.cloud',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ipfs.io',
+      },
+    ],
   },
 };
 module.exports = nextConfig;
