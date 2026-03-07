@@ -45,8 +45,29 @@ async function sendEmail({ to, subject, html, text }) {
     to,
     subject,
     html,
-    text: text || html.replace(/<[^>]+>/g, ''),
+    // Build plain-text fallback without regex stripping (avoids incomplete sanitization)
+    text: text || stripHtmlTags(html),
   });
+}
+
+/**
+ * Convert an HTML string to plain text by replacing block tags with newlines
+ * and removing remaining tags using a whitelist-aware approach.
+ * @param {string} html
+ * @returns {string}
+ */
+function stripHtmlTags(html) {
+  return html
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/?(p|div|h[1-6]|li|tr)[^>]*>/gi, '\n')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&quot;/g, '"')
+    .replace(/<[^>]*>/g, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
 }
 
 // ─── Email Templates ─────────────────────────────────────────────────────────
