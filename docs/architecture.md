@@ -93,7 +93,7 @@ The frontend communicates exclusively with the Express backend via REST. It neve
 
 ### Blockchain Layer
 
-Three Solidity contracts deployed on an EVM-compatible network (Hardhat for local dev; Polygon Mumbai for staging):
+Three Solidity contracts deployed on an EVM-compatible network (Hardhat for local dev; Polygon Amoy testnet for staging):
 
 | Contract | Responsibility |
 |----------|----------------|
