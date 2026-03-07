@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@layer base {
+  html {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply text-gray-900 bg-gray-50 antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  * {
+    @apply border-gray-200;
+  }
+
+  input, select, textarea {
+    @apply outline-none;
+  }
+}
+
+@layer components {
+  .form-input {
+    @apply w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm text-gray-900 placeholder-gray-400
+           focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-gray-700 mb-1.5;
+  }
+
+  .form-error {
+    @apply text-xs text-red-600 mt-1;
+  }
+
+  .section-title {
+    @apply text-2xl sm:text-3xl font-bold text-gray-900;
+  }
+
+  .section-subtitle {
+    @apply text-base text-gray-600 mt-2 max-w-2xl;
+  }
+
+  .page-header {
+    @apply mb-8;
+  }
+
+  .stat-card {
+    @apply bg-white rounded-xl border border-gray-200 p-5 flex items-start gap-4;
+  }
+
+  .stat-icon {
+    @apply p-3 rounded-xl;
+  }
+
+  .stat-value {
+    @apply text-2xl font-bold text-gray-900;
+  }
+
+  .stat-label {
+    @apply text-sm text-gray-500;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent-500;
+  }
+
+  .glass {
+    @apply bg-white/80 backdrop-blur-sm;
+  }
+
+  .hero-gradient {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #047857 100%);
+  }
+}
+
+/* Leaflet fix */
+.leaflet-container {
+  z-index: 1;
+}

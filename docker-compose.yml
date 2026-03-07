@@ -1,0 +1,90 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: landchain-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-landchain}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-landchain_secret}
+      POSTGRES_DB: ${POSTGRES_DB:-landchain}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/migrations/001_initial_schema.sql:/docker-entrypoint-initdb.d/001_initial_schema.sql
+      - ./database/migrations/002_seed_data.sql:/docker-entrypoint-initdb.d/002_seed_data.sql
+    networks:
+      - landchain
+
+  redis:
+    image: redis:7-alpine
+    container_name: landchain-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - landchain
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: landchain-backend
+    restart: unless-stopped
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DATABASE_URL: postgresql://${POSTGRES_USER:-landchain}:${POSTGRES_PASSWORD:-landchain_secret}@postgres:5432/${POSTGRES_DB:-landchain}
+      JWT_SECRET: ${JWT_SECRET:-change_me_in_production}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+      PINATA_API_KEY: ${PINATA_API_KEY}
+      PINATA_SECRET: ${PINATA_SECRET}
+      PINATA_GATEWAY: ${PINATA_GATEWAY:-https://gateway.pinata.cloud}
+      BLOCKCHAIN_RPC_URL: ${BLOCKCHAIN_RPC_URL:-http://host.docker.internal:8545}
+      PRIVATE_KEY: ${PRIVATE_KEY}
+      PROPERTY_REGISTRY_ADDRESS: ${PROPERTY_REGISTRY_ADDRESS}
+      TRANSFER_REGISTRY_ADDRESS: ${TRANSFER_REGISTRY_ADDRESS}
+      MORTGAGE_CONTRACT_ADDRESS: ${MORTGAGE_CONTRACT_ADDRESS}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3001}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
+      EMAIL_FROM: ${EMAIL_FROM:-noreply@landchain.io}
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend/src:/app/src
+    networks:
+      - landchain
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: landchain-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3000/api/v1}
+      NEXT_PUBLIC_MAPBOX_TOKEN: ${NEXT_PUBLIC_MAPBOX_TOKEN}
+    ports:
+      - "3001:3001"
+    networks:
+      - landchain
+
+networks:
+  landchain:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
