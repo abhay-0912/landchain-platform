@@ -28,11 +28,12 @@ function getTransporter() {
 
 /**
  * Send an email.
+ * Each caller MUST supply both `html` and `text` to avoid any regex-based sanitization.
  * @param {Object} options
  * @param {string} options.to
  * @param {string} options.subject
- * @param {string} options.html
- * @param {string} [options.text]
+ * @param {string} options.html  - HTML body (used by SMTP transporter)
+ * @param {string} options.text  - Plain-text body (required; must be provided explicitly)
  */
 async function sendEmail({ to, subject, html, text }) {
   const t = getTransporter();
@@ -45,43 +46,22 @@ async function sendEmail({ to, subject, html, text }) {
     to,
     subject,
     html,
-    // Build plain-text fallback without regex stripping (avoids incomplete sanitization)
-    text: text || stripHtmlTags(html),
+    text,
   });
-}
-
-/**
- * Convert an HTML string to plain text by replacing block tags with newlines
- * and removing remaining tags using a whitelist-aware approach.
- * @param {string} html
- * @returns {string}
- */
-function stripHtmlTags(html) {
-  return html
-    .replace(/<br\s*\/?>/gi, '\n')
-    .replace(/<\/?(p|div|h[1-6]|li|tr)[^>]*>/gi, '\n')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&quot;/g, '"')
-    .replace(/<[^>]*>/g, '')
-    .replace(/\n{3,}/g, '\n\n')
-    .trim();
 }
 
 // ─── Email Templates ─────────────────────────────────────────────────────────
 
 async function sendRegistrationEmail(user) {
+  const appUrl = process.env.CORS_ORIGIN || 'https://landchain.io';
   await sendEmail({
     to: user.email,
     subject: 'Welcome to LandChain',
-    html: `
-      <h2>Welcome to LandChain, ${user.full_name}!</h2>
-      <p>Your account has been created successfully.</p>
-      <p>Please complete your KYC verification to start using all features.</p>
-      <p>Log in at <a href="${process.env.CORS_ORIGIN}">LandChain Platform</a></p>
-    `,
+    html: `<h2>Welcome to LandChain, ${user.full_name}!</h2>
+<p>Your account has been created successfully.</p>
+<p>Please complete your KYC verification to start using all features.</p>
+<p>Log in at <a href="${appUrl}">LandChain Platform</a></p>`,
+    text: `Welcome to LandChain, ${user.full_name}!\n\nYour account has been created successfully.\nPlease complete your KYC verification to start using all features.\nLog in at ${appUrl}`,
   });
 }
 
@@ -89,15 +69,14 @@ async function sendTransferNotificationEmail({ to, name, propertyAddress, role, 
   const roleLabel = role === 'buyer' ? 'buyer' : 'seller';
   await sendEmail({
     to,
-    subject: `LandChain — Property Transfer Initiated`,
-    html: `
-      <h2>Property Transfer Update</h2>
-      <p>Dear ${name},</p>
-      <p>A property transfer for <strong>${propertyAddress}</strong> has been initiated.</p>
-      <p>You are listed as the <strong>${roleLabel}</strong> in this transaction.</p>
-      <p>Transfer reference: <code>${transferId}</code></p>
-      <p>Log in to LandChain to review and take action.</p>
-    `,
+    subject: 'LandChain — Property Transfer Initiated',
+    html: `<h2>Property Transfer Update</h2>
+<p>Dear ${name},</p>
+<p>A property transfer for <strong>${propertyAddress}</strong> has been initiated.</p>
+<p>You are listed as the <strong>${roleLabel}</strong> in this transaction.</p>
+<p>Transfer reference: <code>${transferId}</code></p>
+<p>Log in to LandChain to review and take action.</p>`,
+    text: `Property Transfer Update\n\nDear ${name},\n\nA property transfer for "${propertyAddress}" has been initiated.\nYou are listed as the ${roleLabel} in this transaction.\nTransfer reference: ${transferId}\n\nLog in to LandChain to review and take action.`,
   });
 }
 
@@ -105,12 +84,11 @@ async function sendApprovalEmail({ to, name, subject, message }) {
   await sendEmail({
     to,
     subject: `LandChain — ${subject}`,
-    html: `
-      <h2>${subject}</h2>
-      <p>Dear ${name},</p>
-      <p>${message}</p>
-      <p>Log in to <a href="${process.env.CORS_ORIGIN}">LandChain</a> for details.</p>
-    `,
+    html: `<h2>${subject}</h2>
+<p>Dear ${name},</p>
+<p>${message}</p>
+<p>Log in to LandChain for details.</p>`,
+    text: `${subject}\n\nDear ${name},\n\n${message}\n\nLog in to LandChain for details.`,
   });
 }
 
