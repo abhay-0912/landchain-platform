@@ -126,7 +126,8 @@ cd blockchain && npx hardhat test
 
 ## Deployment
 
-See [docs/architecture.md](docs/architecture.md#deployment-architecture) for the full production deployment guide.
+- **Free hosting (zero cost):** See [HOSTING.md](HOSTING.md) for a step-by-step guide to deploying every layer for free using Vercel, Render, Neon, Alchemy, and Pinata.
+- **Production architecture:** See [docs/architecture.md](docs/architecture.md#deployment-architecture) for the full production deployment guide.
 
 ---
 
@@ -134,6 +135,7 @@ See [docs/architecture.md](docs/architecture.md#deployment-architecture) for the
 
 | Document | Description |
 |----------|-------------|
+| [HOSTING.md](HOSTING.md) | Step-by-step guide to hosting for free (Vercel, Render, Neon, Alchemy, Pinata) |
 | [docs/architecture.md](docs/architecture.md) | System architecture, data flows, security model |
 | [docs/api.md](docs/api.md) | Full REST API reference |
 | [docs/smart-contracts.md](docs/smart-contracts.md) | Smart contract functions, events, roles |
