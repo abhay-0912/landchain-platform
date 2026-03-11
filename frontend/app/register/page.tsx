@@ -127,8 +127,15 @@ export default function Register() {
       const location = [form.village, form.district, form.state].filter(Boolean).join(", ");
       await axios.post("https://landchain-platform.onrender.com/api/property", {
         owner: form.ownerName,
+        aadhaar: form.aadhaar,
+        property_id: form.propertyId,
+        state: form.state,
+        district: form.district,
+        village: form.village,
         location,
         area: parseFloat(form.area),
+        property_type: form.propertyType,
+        survey_number: form.surveyNumber
       });
       setSuccess({
         txHash: "0x" + randomHex(64),
