@@ -147,7 +147,7 @@ export default function Verify() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/property")
+      .get("https://landchain-platform.onrender.com/api/property")
       .then((res) => setAllProperties(res.data))
       .finally(() => setLoadingRecent(false));
   }, []);
@@ -158,7 +158,7 @@ export default function Verify() {
     setSearching(true);
     setResult(null);
     try {
-      const res = await axios.get("http://localhost:5000/api/property");
+      const res = await axios.get("https://landchain-platform.onrender.com/api/property");
       const all: Property[] = res.data;
       const q = query.trim().toLowerCase();
       const match = all.find(

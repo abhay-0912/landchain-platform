@@ -125,7 +125,7 @@ export default function Register() {
     setLoading(true);
     try {
       const location = [form.village, form.district, form.state].filter(Boolean).join(", ");
-      await axios.post("http://localhost:5000/api/property", {
+      await axios.post("https://landchain-platform.onrender.com/api/property", {
         owner: form.ownerName,
         location,
         area: parseFloat(form.area),

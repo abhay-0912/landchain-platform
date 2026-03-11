@@ -66,7 +66,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/property")
+      .get("https://landchain-platform.onrender.com/api/property")
       .then((res) => setProperties(res.data))
       .finally(() => setLoading(false));
   }, []);
