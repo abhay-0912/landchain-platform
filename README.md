@@ -24,14 +24,11 @@ What you can do in the demo:
 
 ## 🖼️ Screenshots
 
-> Replace placeholders with real product screenshots from your deployment.
 
-- Landing / Register Screen: **Add screenshot here**
-- Dashboard Overview: **Add screenshot here**
-- Property Registration Flow: **Add screenshot here**
-- Transfer Approval Workflow: **Add screenshot here**
-- API + Blockchain Transaction Evidence: **Add screenshot here**
-
+- Landing Screen: ![alt text](image.png)
+- Dashboard Overview: ![alt text](image-1.png)
+- Property Registration Flow: ![alt text](image-2.png)
+- Transfer Approval Workflow: ![alt text](image-3.png)
 ---
 
 ## ✨ Features
