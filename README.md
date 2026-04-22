@@ -1,159 +1,421 @@
-# 🏛️ LandChain Platform
+# LandChain Platform
 
-> Blockchain-based land registry platform for secure property ownership, title verification, and transparent land transactions.
+### Own Land with Proof, Not Paper.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Node.js](https://img.shields.io/badge/Node.js-18%2B-green)](https://nodejs.org)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue)](https://postgresql.org)
-[![Solidity](https://img.shields.io/badge/Solidity-0.8.19-purple)](https://soliditylang.org)
+A full-stack blockchain land registry platform that modernizes property registration and ownership tracking with verifiable on-chain records, secure APIs, and scalable web architecture.
 
----
-
-## Features
-
-- 🔐 **KYC-gated access** — citizens, officers, banks, and admins with role-based permissions
-- 📜 **Immutable property registry** — every registration and ownership change anchored on-chain
-- 🔄 **4-step transfer workflow** — seller → buyer confirmation → officer approval → completion
-- 🏦 **Mortgage management** — banks lock/release collateral with on-chain enforcement
-- 📁 **IPFS document storage** — title deeds and legal docs pinned via Pinata
-- 🗂️ **Full audit trail** — every action logged to PostgreSQL audit_logs
-- 🗺️ **Geo-search** — find properties by city, state, or coordinates
+![Status](https://img.shields.io/badge/Status-Live-success)
+![Frontend](https://img.shields.io/badge/Frontend-Next.js_15-black)
+![Backend](https://img.shields.io/badge/Backend-Node.js_Express-green)
+![Database](https://img.shields.io/badge/Database-PostgreSQL_(Supabase)-blue)
+![Blockchain](https://img.shields.io/badge/Blockchain-Solidity_Hardhat-2f3134)
+![Network](https://img.shields.io/badge/Network-Polygon-yellow)
+![License](https://img.shields.io/badge/License-MIT-blue)
 
 ---
 
-## Tech Stack
+## 1) Project Title + Tagline
 
-| Layer      | Technology                                    |
-|------------|-----------------------------------------------|
-| Frontend   | Next.js 14, React, Tailwind CSS, ethers.js v6 |
-| Backend    | Node.js 18, Express 4, JWT, express-validator |
-| Database   | PostgreSQL 15                                 |
-| Blockchain | Solidity 0.8.19, Hardhat, OpenZeppelin v5     |
-| Storage    | IPFS via Pinata                               |
-| Cache      | Redis 7 (optional)                            |
+LandChain Platform is an end-to-end property registry system designed for transparent land records, tamper-resistant ownership history, and trust-minimized transactions.
 
 ---
 
-## Quick Start
+## 2) Live Demo
+
+🌐 Production URL: https://landchain-platform.vercel.app/
+
+If the app is sleeping or unavailable, use this placeholder format:
+
+https://your-demo-url-here
+
+---
+
+## 3) Screenshots
+
+Add screenshots to docs/screenshots and update the links below.
+
+![Landing Page](docs/screenshots/landing-page.png)
+![Dashboard](docs/screenshots/dashboard.png)
+![Property Registration](docs/screenshots/property-registration.png)
+![Property Search and Listing](docs/screenshots/property-listing.png)
+![Blockchain Ownership View](docs/screenshots/blockchain-ownership.png)
+
+---
+
+## 4) Features
+
+- ✅ Property registration workflow with structured ownership metadata
+- ✅ Real-time property listing and search experience
+- ✅ Blockchain-anchored ownership records for immutability and auditability
+- ✅ Multi-role system: citizen, officer, bank, admin
+- ✅ Transfer lifecycle: initiate, confirm, approve, complete, cancel
+- ✅ Mortgage lock/release lifecycle tied to ownership restrictions
+- ✅ Tax records and dues tracking via REST APIs
+- ✅ Document upload and optional IPFS (Pinata) integration
+- ✅ Hardened backend with rate limiting, JWT auth, and validation
+- ✅ Fully deployed full-stack architecture with zero-cost friendly setup (₹0 on free tiers)
+
+---
+
+## 5) Tech Stack
+
+| Layer | Technologies Used |
+|---|---|
+| Frontend | Next.js 15, React 18, Tailwind CSS, Axios, React Hook Form |
+| Backend | Node.js, Express, JWT, bcryptjs, express-validator, multer |
+| Database | PostgreSQL (Supabase-compatible), pg |
+| Blockchain | Solidity 0.8.x, Hardhat, OpenZeppelin, Ethers.js |
+| Storage | IPFS via Pinata (optional) |
+| Deployment | Vercel (frontend), Render (backend), Polygon testnet |
+
+---
+
+## 6) Architecture Diagram
+
+~~~mermaid
+flowchart LR
+	 U[User] --> F[Frontend<br/>Next.js]
+	 F --> B[Backend API<br/>Node.js + Express]
+	 B --> D[(PostgreSQL<br/>Supabase)]
+	 B --> C[Smart Contracts<br/>Polygon]
+	 B --> I[(IPFS / Pinata<br/>Optional)]
+~~~
+
+Architecture Flow:
+
+User → Frontend (Next.js) → Backend (Express API) → PostgreSQL → Blockchain (Polygon) → IPFS (optional)
+
+---
+
+## 7) Folder Structure
+
+~~~text
+landchain-platform/
+├── backend/
+│   ├── src/
+│   │   ├── config/
+│   │   ├── controllers/
+│   │   ├── middleware/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   ├── app.js
+│   │   └── server.js
+│   └── tests/
+├── frontend/
+│   ├── src/
+│   │   ├── app/
+│   │   ├── components/
+│   │   ├── lib/
+│   │   └── __tests__/
+│   └── package.json
+├── blockchain/
+│   ├── contracts/
+│   ├── scripts/
+│   ├── test/
+│   ├── deployments/
+│   └── hardhat.config.js
+├── database/
+│   ├── migrations/
+│   └── schema.sql
+├── docs/
+├── docker-compose.yml
+└── README.md
+~~~
+
+---
+
+## 8) Installation & Setup
 
 ### Prerequisites
 
 - Node.js 18+
-- PostgreSQL 15
+- npm 9+
+- PostgreSQL (or Supabase project)
 - Git
 
-### 1. Clone the repository
+### Step 1: Clone repository
 
-```bash
-git clone https://github.com/your-org/landchain-platform.git
+~~~bash
+git clone https://github.com/your-username/landchain-platform.git
 cd landchain-platform
-```
+~~~
 
-### 2. Set up environment variables
+### Step 2: Install dependencies
 
-```bash
-cp .env.example .env
-cp backend/.env.example backend/.env
-cp frontend/.env.local.example frontend/.env.local
-# Edit each file with your values
-```
-
-### 3. Set up the database
-
-```bash
-psql -U postgres -c "CREATE USER landchain WITH PASSWORD 'landchain_secret';"
-psql -U postgres -c "CREATE DATABASE landchain OWNER landchain;"
-psql -U landchain -d landchain -f database/migrations/001_initial_schema.sql
-psql -U landchain -d landchain -f database/migrations/002_seed_data.sql  # dev only
-```
-
-### 4. Start the blockchain node
-
-```bash
-cd blockchain
-npm install
-npx hardhat node        # runs on localhost:8545
-# In a second terminal:
-npx hardhat run scripts/deploy.js --network localhost
-# Copy the deployed addresses into backend/.env
-```
-
-### 5. Start the backend
-
-```bash
+~~~bash
 cd backend
 npm install
-npm run dev             # runs on localhost:3000
-```
 
-### 6. Start the frontend
-
-```bash
-cd frontend
+cd ../frontend
 npm install
-npm run dev             # runs on localhost:3001
-```
 
-Open [http://localhost:3001](http://localhost:3001).
+cd ../blockchain
+npm install
+~~~
+
+### Step 3: Configure environment files
+
+Create:
+
+- backend/.env
+- frontend/.env.local
+
+Use the environment variables listed below.
+
+### Step 4: Run database migrations
+
+~~~bash
+psql -f database/migrations/001_initial_schema.sql
+psql -f database/migrations/002_seed_data.sql
+~~~
+
+### Step 5: Deploy contracts locally (optional for local chain)
+
+~~~bash
+cd blockchain
+npx hardhat node
+npx hardhat run scripts/deploy.js --network localhost
+~~~
+
+### Step 6: Run backend
+
+~~~bash
+cd backend
+npm run dev
+~~~
+
+### Step 7: Run frontend
+
+~~~bash
+cd frontend
+npm run dev
+~~~
+
+Local URLs:
+
+- Frontend: http://localhost:3001
+- Backend: http://localhost:3000
+- Health Check: http://localhost:3000/health
 
 ---
 
-## Docker (recommended for local dev)
+## 9) Environment Variables
 
-```bash
-cp .env.example .env   # fill in values
-docker compose up -d
-```
+### Backend (backend/.env)
 
-Services: PostgreSQL on `:5432`, Redis on `:6379`, backend on `:3000`, frontend on `:3001`.
+~~~env
+NODE_ENV=development
+PORT=3000
+DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/DB_NAME
 
----
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRES_IN=7d
 
-## Running Tests
+CORS_ORIGIN=http://localhost:3001
 
-```bash
-# Backend
-cd backend && npm test
+BLOCKCHAIN_RPC_URL=https://rpc-amoy.polygon.technology
+PRIVATE_KEY=0xyour_private_key
+PROPERTY_REGISTRY_ADDRESS=0xyour_property_registry_address
+TRANSFER_REGISTRY_ADDRESS=0xyour_transfer_registry_address
+MORTGAGE_CONTRACT_ADDRESS=0xyour_mortgage_contract_address
 
-# Frontend
-cd frontend && npm test
+PINATA_API_KEY=your_pinata_api_key
+PINATA_SECRET=your_pinata_secret
+PINATA_GATEWAY=https://gateway.pinata.cloud
 
-# Smart contracts
-cd blockchain && npx hardhat test
-```
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_USER=your_smtp_user
+SMTP_PASS=your_smtp_password
+EMAIL_FROM=noreply@landchain.io
+~~~
 
----
+### Frontend (frontend/.env.local)
 
-## Deployment
-
-- **Free hosting (zero cost):** See [HOSTING.md](HOSTING.md) for a step-by-step guide to deploying every layer for free using Vercel, Render, Neon, Alchemy, and Pinata.
-- **Production architecture:** See [docs/architecture.md](docs/architecture.md#deployment-architecture) for the full production deployment guide.
-
----
-
-## Documentation
-
-| Document | Description |
-|----------|-------------|
-| [HOSTING.md](HOSTING.md) | Step-by-step guide to hosting for free (Vercel, Render, Neon, Alchemy, Pinata) |
-| [docs/architecture.md](docs/architecture.md) | System architecture, data flows, security model |
-| [docs/api.md](docs/api.md) | Full REST API reference |
-| [docs/smart-contracts.md](docs/smart-contracts.md) | Smart contract functions, events, roles |
-| [database/README.md](database/README.md) | Database setup and migration guide |
+~~~env
+NEXT_PUBLIC_API_URL=http://localhost:3000/api/v1
+NEXT_PUBLIC_MAPBOX_TOKEN=your_mapbox_token
+~~~
 
 ---
 
-## Contributing
+## 10) API Endpoints
+
+Base URL:
+
+http://localhost:3000/api/v1
+
+### Auth
+
+- POST /auth/register
+- POST /auth/login
+- GET /auth/me
+- PUT /auth/kyc
+- PATCH /auth/kyc/:userId/verify
+
+### Properties
+
+- POST /properties
+- GET /properties/search
+- GET /properties/mine
+- GET /properties/:id
+- GET /properties/:id/history
+- PATCH /properties/:id
+
+### Transfers
+
+- POST /transfers
+- GET /transfers/mine
+- GET /transfers/:id
+- POST /transfers/:id/confirm
+- POST /transfers/:id/approve
+- POST /transfers/:id/complete
+- POST /transfers/:id/cancel
+
+### Mortgages
+
+- POST /mortgages
+- GET /mortgages/:id
+- GET /mortgages/property/:propertyId
+- POST /mortgages/:id/release
+
+### Taxes
+
+- GET /taxes/property/:propertyId/history
+- GET /taxes/property/:propertyId/dues
+- POST /taxes/property/:propertyId/pay
+
+### Documents
+
+- POST /documents/upload
+- GET /documents/property/:propertyId
+- GET /documents/:id
+- POST /documents/:id/verify
+
+### Admin
+
+- GET /admin/users
+- PATCH /admin/users/:userId
+- GET /admin/stats
+- GET /admin/audit-logs
+- GET /admin/properties
+
+---
+
+## 11) Blockchain Details
+
+LandChain uses three Solidity contracts with role-based access control:
+
+### 1. PropertyRegistry.sol
+
+- Registers properties with survey number, geodata, and IPFS hash
+- Maintains canonical owner record
+- Enforces uniqueness (survey-to-property mapping)
+- Supports ownership updates via authorized transfer contract
+
+### 2. TransferRegistry.sol
+
+- Implements regulated transfer workflow:
+  - PENDING
+  - BUYER_CONFIRMED
+  - OFFICER_APPROVED
+  - COMPLETED / CANCELLED
+- Restricts invalid transfer state transitions
+- Updates owner in PropertyRegistry on final completion
+
+### 3. MortgageContract.sol
+
+- Locks properties as collateral for active loans
+- Prevents conflicting transfer operations while mortgaged
+- Releases mortgage and updates status post-closure
+
+### Network
+
+- Primary testnet target: Polygon Amoy
+- Legacy compatibility: Polygon Mumbai configuration is present
+- Local development chain: Hardhat localhost (31337)
+
+---
+
+## 12) Deployment Guide (Vercel + Render)
+
+### Frontend on Vercel
+
+1. Import frontend directory into Vercel.
+2. Build settings:
+	- Framework: Next.js
+	- Root Directory: frontend
+3. Add environment variable:
+	- NEXT_PUBLIC_API_URL = your Render backend URL + /api/v1
+4. Deploy.
+
+### Backend on Render
+
+1. Create a new Web Service from backend.
+2. Set build/start commands:
+	- Build: npm install
+	- Start: npm start
+3. Add all backend environment variables from Section 9.
+4. Attach PostgreSQL (Render DB or Supabase external URL).
+5. Ensure CORS_ORIGIN points to Vercel frontend domain.
+
+### Blockchain
+
+1. Deploy contracts from blockchain directory:
+
+~~~bash
+npx hardhat run scripts/deploy.js --network amoy
+~~~
+
+2. Copy deployed contract addresses into backend environment:
+
+- PROPERTY_REGISTRY_ADDRESS
+- TRANSFER_REGISTRY_ADDRESS
+- MORTGAGE_CONTRACT_ADDRESS
+
+---
+
+## 13) Future Improvements
+
+- Add wallet-native authentication (SIWE) and signature-based approvals
+- Integrate verifiable credentials for stronger KYC proofs
+- Add GIS-grade map layers with parcel boundary overlays
+- Add event indexer/subgraph for faster on-chain analytics
+- Add OCR and AI-based document validation pipeline
+- Add multilingual support for wider public adoption
+- Add automated legal workflow templates per state policy
+- Expand to L2/mainnet with contract upgrade governance
+
+---
+
+## 14) Contributing
+
+Contributions are welcome.
 
 1. Fork the repository
-2. Create a feature branch: `git checkout -b feat/your-feature`
-3. Commit your changes: `git commit -m "feat: add your feature"`
-4. Push and open a Pull Request
+2. Create a feature branch
+3. Commit clean, testable changes
+4. Open a pull request with clear context and screenshots (if UI changes)
 
-Please follow [Conventional Commits](https://www.conventionalcommits.org/) and ensure all tests pass before submitting.
+Recommended checklist:
+
+- Add or update tests
+- Keep API contracts backward-compatible where possible
+- Update documentation for behavior changes
 
 ---
 
-## License
+## 15) License
 
-[MIT](LICENSE)
+This project is licensed under the MIT License.
+
+---
+
+## 16) Author
+
+### Abhay
+
+Software Engineer focused on full-stack systems, applied blockchain architecture, and production-ready developer platforms.
+
+If you are hiring for backend, full-stack, or Web3 engineering roles, this project demonstrates practical delivery across product, architecture, security, deployment, and smart contracts.
